@@ -1,599 +1,579 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.6">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Growth Protocol</title>
+    <style>
+        :root {
+            --bg-body: #111111;
+            --bg-card: #1C1C1C;
+            --text-main: #F5F5F5;
+            --text-muted: #B0B0B0;
+            --border-color: #363636;
+            --insta-blue: #0095f6;
+            --insta-green: #36cfc9;
+            --insta-purple: #833ab4;
+            --insta-orange: #f55e2c;
+            --blue: #3b82f6;
+            --blue-dim: #bfdbfe;
+            --yellow: #f59e0b;
+            --yellow-dim: #fef3c7;
+            --orange: #f97316;
+            --orange-dim: #ffedd5;
+            --green: #10b981;
+            --green-dim: #d1fae5;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .widget-container {
+            width: 100%;
+            max-width: 900px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        /* --- Header --- */
+        .header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-avatar {
+            width: 50px;
+            height: 50px;
+            background-color: var(--text-main);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 24px;
+            color: #000;
+            flex-shrink: 0;
+        }
+
+        .header-info h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .header-meta {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* --- Summary Bar --- */
+        .summary-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: #262626;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .summary-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+
+        .summary-val {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        /* --- Accordion Section --- */
+        .accordion-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* --- Accordion Item --- */
+        .accordion-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .phase-hook    { border-top: 3px solid var(--blue); }
+        .phase-content { border-top: 3px solid var(--yellow); }
+        .phase-growth  { border-top: 3px solid var(--orange); }
+        .phase-sale    { border-top: 3px solid var(--insta-blue); }
+
+        /* --- Accordion Header --- */
+        .accordion-header {
+            padding: 18px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .accordion-header:hover {
+            background-color: rgba(255,255,255,0.03);
+        }
+
+        .phase-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .phase-indicator {
+            font-size: 0.65rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .phase-hook    .phase-indicator { background-color: var(--blue); }
+        .phase-content .phase-indicator { background-color: var(--yellow); color: #000; }
+        .phase-growth  .phase-indicator { background-color: var(--orange); }
+        .phase-sale    .phase-indicator { background-color: var(--insta-blue); }
+
+        /* --- Chevron Arrow --- */
+        .chevron {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #2e2e2e;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: transform 0.3s ease, background-color 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .accordion-item.expanded .chevron {
+            transform: rotate(180deg);
+            background-color: #3a3a3a;
+        }
+
+        /* --- Accordion Content --- */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out, opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .accordion-item.expanded .accordion-content {
+            opacity: 1;
+            /* max-height set by JS inline */
+        }
+
+        /* --- Section Rows --- */
+        .section-row {
+            padding: 20px 25px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 12px;
+        }
+
+        .phase-hook    .section-title { color: var(--blue); }
+        .phase-content .section-title { color: var(--yellow); }
+        .phase-growth  .section-title { color: var(--orange); }
+        .phase-sale    .section-title { color: var(--insta-blue); }
+
+        /* --- Task List --- */
+        .tasks-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tasks-list li {
+            padding: 6px 0 6px 22px;
+            position: relative;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #d0d0d0;
+        }
+
+        .tasks-list li::before {
+            content: '•';
+            color: var(--insta-green);
+            font-size: 1.3rem;
+            position: absolute;
+            left: 0;
+            top: 2px;
+            line-height: 1.4;
+        }
+
+        /* --- Idea Cards --- */
+        .idea-card {
+            background: #262626;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid;
+        }
+
+        .phase-hook    .idea-card { border-left-color: var(--blue); }
+        .phase-content .idea-card { border-left-color: var(--yellow); }
+        .phase-growth  .idea-card { border-left-color: var(--orange); }
+        .phase-sale    .idea-card { border-left-color: var(--insta-blue); }
+
+        .idea-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            gap: 10px;
+        }
+
+        .idea-header h4 {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .idea-type {
+            font-size: 0.68rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background: #3a3a3a;
+            color: #ccc;
+            font-weight: 600;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .idea-desc {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* --- Meta Tags --- */
+        .meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .meta-tag {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            background-color: #262626;
+            color: var(--text-main);
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* --- Insight Row --- */
+        .insight-row {
+            margin: 0 25px 20px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            background: #1a1a1a;
+            border-left: 4px solid;
+        }
+
+        .phase-hook    .insight-row { border-left-color: var(--blue); }
+        .phase-content .insight-row { border-left-color: var(--yellow); }
+        .phase-growth  .insight-row { border-left-color: var(--orange); }
+        .phase-sale    .insight-row { border-left-color: var(--insta-blue); }
+
+        .insight-text {
+            font-size: 0.85rem;
+            font-style: italic;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 600px) {
+            body { padding: 12px; }
+            .widget-container { padding: 18px; }
+            .summary-bar { grid-template-columns: repeat(2, 1fr); }
+            .phase-title { font-size: 0.95rem; }
+        }
+    </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="en"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Instagram Growth Protocol&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>:root {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--bg-body: #111111; /* Instagram Dark Mode base */</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--bg-card: #1C1C1C;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--text-main: #F5F5F5;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--text-muted: #B0B0B0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--border-color: #363636;</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>/* Instagram Colors */</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--insta-blue: #0095f6;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--insta-green: #36cfc9;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--insta-purple: #833ab4;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--insta-orange: #f55e2c;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>--blue: #3b82f6;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--blue-dim: #bfdbfe;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--yellow: #f59e0b;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--yellow-dim: #fef3c7;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--orange: #f97316;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--orange-dim: #ffedd5;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--green: #10b981;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--green-dim: #d1fae5;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>* {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>box-sizing: border-box;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--bg-body);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-main);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin: 0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.widget-container {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>max-width: 900px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--bg-card);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid var(--border-color);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 30px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* --- Header --- */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.header {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-bottom: 1px solid var(--border-color);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding-bottom: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 30px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>gap: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.header-avatar {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 50px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>height: 50px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--text-main);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 50%;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 800;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 24px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: #000;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.header-info h1 {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 800;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin: 0;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.header-meta {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.9rem;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-muted);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.highlight { color: var(--insta-green); }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* --- Summary Bar --- */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.summary-bar {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: grid;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>grid-template-columns: repeat(4, 1fr);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>gap: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 30px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.summary-card {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background: #262626;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid var(--border-color);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.summary-label {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.75rem;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>text-transform: uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>letter-spacing: 0.05em;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-muted);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 5px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>gap: 5px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.summary-val {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.1rem;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* --- Accordion Section --- */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.accordion-section {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>gap: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* --- Accordion Item --- */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.accordion-item {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background: var(--bg-card);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid var(--border-color);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>overflow: hidden;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 4px 10px rgba(0,0,0,0.3);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.3s ease;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* Specific Accordion Colors */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.phase-hook { border-top: 3px solid var(--blue); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.phase-content { border-top: 3px solid var(--yellow); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.phase-growth { border-top: 3px solid var(--orange); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.phase-sale { border-top: 3px solid var(--insta-blue); }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.accordion-item.closed {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>max-height: 60px;<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* --- Header --- */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.accordion-header {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px 25px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>justify-content: space-between;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: transparent;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>user-select: none;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.phase-title {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.2rem;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>gap: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.phase-indicator {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.8rem;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 2px 8px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>text-transform: uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.65rem;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>letter-spacing: 0.05em;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.phase-hook .phase-indicator { background-color: var(--blue); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.phase-content .phase-indicator { background-color: var(--yellow); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.phase-growth .phase-indicator { background-color: var(--orange); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.phase-sale .phase-indicator { background-color: var(--insta-blue); }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.chevron {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 24px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>height: 24px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 50%;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: #333;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-muted);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-weight: bold;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>transition: transform 0.3s ease;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.accordion-item.expanded .chevron {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>transform: rotate(180deg);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: #444;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* --- Content Body --- */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.accordion-content {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>max-height: 0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>overflow: hidden;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>transition: max-height 0.3s ease-in-out;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: transparent;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>opacity: 0;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.accordion-item.expanded .accordion-content {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>max-height: 1000px;<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>opacity: 1;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* --- Sections --- */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.section-row {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 25px 30px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-bottom: 1px solid var(--border-color);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.section-row:last-child {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-bottom: none;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.section-title {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.9rem;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>text-transform: uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-muted);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>gap: 8px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* Dynamic Colored Dots */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.phase-hook .section-title { color: var(--blue); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.phase-content .section-title { color: var(--yellow); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.phase-growth .section-title { color: var(--orange); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.phase-sale .section-title { color: var(--insta-blue); }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* --- Ideas Cards --- */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.idea-card {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background: #262626;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid var(--border-color);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-left: 4px solid;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.phase-hook .idea-card { border-left-color: var(--blue); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.phase-content .idea-card { border-left-color: var(--yellow); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.phase-growth .idea-card { border-left-color: var(--orange); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.phase-sale .idea-card { border-left-color: var(--insta-blue); }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.idea-header {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>justify-content: space-between;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.idea-header h4 {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin: 0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1rem;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.idea-type {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.7rem;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 3px 8px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 4px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background: #333;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: #fff;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.idea-desc {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.9rem;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-muted);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>line-height: 1.4;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* --- Tasks List --- */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.tasks-list {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>list-style: none;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin: 0;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.tasks-list li {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 8px 0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding-left: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.9rem;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>line-height: 1.6;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.tasks-list li::before {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>content: '•';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: var(--insta-green); /* Instagram Green */</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-weight: bold;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>left: 0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>top: -8px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* --- Meta Tags --- */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.meta-row {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>flex-wrap: wrap;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>gap: 8px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.meta-tag {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.75rem;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 4px 10px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: #262626;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-main);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 4px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: inline-block;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid var(--border-color);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* --- Insight Tip --- */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.insight-row {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding-left: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-left: 4px solid #333;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.phase-hook .insight-row { border-left-color: var(--blue); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.phase-content .insight-row { border-left-color: var(--yellow); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.phase-growth .insight-row { border-left-color: var(--orange); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.phase-sale .insight-row { border-left-color: var(--insta-blue); }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.insight-text {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.85rem;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-style: italic;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-muted);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="widget-container"&gt;</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Header --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="header-avatar"&gt;P&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="header-info"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;h1&gt;Plexus Media&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="header-meta"&gt;Content Strategist | Video Editor&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Phase Summary Bar --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="summary-bar"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="summary-label"&gt;🎯 Hook&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="summary-val"&gt;Day 1-3&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="summary-label"&gt;🎥 Content&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="summary-val"&gt;Day 4-12&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="summary-label"&gt;🚀 Growth&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="summary-val"&gt;Day 13-20&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="summary-card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="summary-label"&gt;💰 Sales&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="summary-val"&gt;Day 21-30&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Accordion Section --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="accordion-section"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- PHASE 1: THE PATTERN INTERRUPT (Hook) --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="accordion-item phase-hook expanded"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="accordion-header" onclick="toggleAccordion(this)"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="phase-title"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span&gt;Day 1-3: Fix the Algorithm&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="phase-indicator"&gt;Fix&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="chevron"&gt;+&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="accordion-content"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="section-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="section-title"&gt;Strategy&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;ul class="tasks-list"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;&lt;strong&gt;Stop the "Documentary":&lt;/strong&gt; Cut the long business talk. Only show the top 3 most painful problems your clients face. Start with "Stop doing [X] if you want [Y]." (e.g., Stop doing generic editing if you want more retention).&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;&lt;strong&gt;Create the "Before/After":&lt;/strong&gt; Make a Reel showing "Raw Footage vs Final Video" with a fast-speed transition in the middle.&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;&lt;strong&gt;The "Glow Up":&lt;/strong&gt; Post a side-by-side of your editing workflow (Day 1 - messy) vs Day 30 (clean). Text overlay: "How I cleaned up my process."&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="section-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="section-title"&gt;The Plan&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;ul class="tasks-list"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;Day 1: Post "Boring Editing is Killing Your Views" (Documentary style but fast).&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;Day 2: Post "Before vs After" of a client project (Speed up the footage).&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;Day 3: Post "The Mistakes I Made in 4 Years" (Personal/Vulnerable).&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="insight-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="insight-text"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;strong&gt;Insight:&lt;/strong&gt; When you post "How I edit," nobody cares. When you post "Why your edit looks cheap," people stop scrolling immediately.</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- PHASE 2: THE VALUE PROOF (Content) --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="accordion-item phase-content"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="accordion-header" onclick="toggleAccordion(this)"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="phase-title"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span&gt;Day 4-12: Skill Showcase&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="phase-indicator"&gt;Build&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="chevron"&gt;+&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="accordion-content"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="section-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="section-title"&gt;The Content Grid&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="meta-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="meta-tag"&gt;Strategy&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="meta-tag"&gt;Education&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="meta-tag"&gt;Portfolio&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div style="margin-top: 10px;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="idea-card" style="border-left-color: var(--yellow);"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="idea-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;h4&gt;Topic 1: Sound Design ASMR&lt;/h4&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;span class="idea-type"&gt;ASMR&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="idea-desc"&gt;No music, just intense sound effects (whooshes, pops). Visually zoom into the waveform. Caption: "Sound is 50% of the video."&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="idea-card" style="border-left-color: var(--yellow);"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="idea-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;h4&gt;Topic 2: The Color LUT Hack&lt;/h4&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;span class="idea-type"&gt;Tutorial&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="idea-desc"&gt;Show a split screen: "My LUT vs Stock LUT". Show a 3-second clip transforming color. Caption: "Stop using the 'Vital' LUT."&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="idea-card" style="border-left-color: var(--yellow);"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="idea-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;h4&gt;Topic 3: Typography Animation&lt;/h4&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;span class="idea-type"&gt;Speedrun&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="idea-desc"&gt;Timelapse of you typing a bold headline that animates into a complex kinetic title sequence.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="section-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="section-title"&gt;Goal&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="goals-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="meta-tag"&gt;10k+ Views (1st Reel)&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="meta-tag"&gt;Profile Clicks&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="insight-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="insight-text"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;strong&gt;Tip:&lt;/strong&gt; Audio trends are huge right now. Use a trending sound (even if you lower the volume to 5%) and post your content immediately.</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- PHASE 3: THE REEL TO LEAD (Growth) --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="accordion-item phase-growth"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="accordion-header" onclick="toggleAccordion(this)"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="phase-title"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span&gt;Day 13-20: The Reel-to-Lead&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="phase-indicator"&gt;Growth&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="chevron"&gt;+&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="accordion-content"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="section-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="section-title"&gt;Format: The "Pain Agony"&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;ul class="tasks-list"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;Identify your clients' biggest fear (e.g., "You have footage but no one is watching").&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;Create a 7-second video where you say this. Visual: Text on screen shaking or a sad emoji, then boom—you have the solution.&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;&lt;strong&gt;CTA (Crucial):&lt;/strong&gt; "Comment 'FIX' and I'll send you the strategy." Do not ask them to DM. DMs are spammy. Comments are tracked leads.&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="section-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="section-title"&gt;Format: The "Sneak Peek"&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;ul class="tasks-list"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;Take a finished video you just delivered.&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;Post a "Behind the Scenes" of the editing process for the first 15 seconds.&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;CTA: "DM me 'EDIT' to see what I did."&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="section-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="section-title"&gt;Outreach / DMs&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;ul class="tasks-list"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;Reply to the "FIX" comments immediately (within 15 mins).&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;Send an automated Loom video (2 mins max) analyzing their current brand.&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="insight-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="insight-text"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;strong&gt;Insight:&lt;/strong&gt; Don't lead with "I edit for $X". Lead with their pain. "I help e-com brands increase AOV" is better than "I use Premiere Pro."</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- PHASE 4: THE PROOF &amp; CLOSE (Sales) --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="accordion-item phase-sale"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="accordion-header" onclick="toggleAccordion(this)"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="phase-title"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span&gt;Day 21-30: The Offer&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="phase-indicator"&gt;Review&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="chevron"&gt;+&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="accordion-content"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="section-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="section-title"&gt;The 24-Hour Reel&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;ul class="tasks-list"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;&lt;strong&gt;Record a video of a real client call.&lt;/strong&gt; Don't script it. Ask them: "What was the biggest result you got?" "What was the hardest part?" This builds massive trust.&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;&lt;strong&gt;Case Study:&lt;/strong&gt; Post a simple slide deck: Problem -&gt; My Edit -&gt; Result (e.g., "Views went from 200 to 50k").&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="section-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="section-title"&gt;The Offer (Post)&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="meta-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="meta-tag"&gt;Monthly Retainer&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="meta-tag"&gt;Project Based&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="meta-tag"&gt;Retainer&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="idea-card" style="border-left-color: var(--insta-blue);"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="idea-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h4&gt;Copywriting for Bio&lt;/h4&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;span class="idea-type"&gt;Change&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="idea-desc"&gt;Update your bio to: "I turn messy footage into viral ads. Free strategy call for first 5 replies." Make the "Free Strategy Call" a lead magnet.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="insight-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="insight-text"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;strong&gt;Insight:&lt;/strong&gt; If you struggle to get views, the offer will fail. Fix Phase 1 and 2 first. You cannot sell what no one is looking at.</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>function toggleAccordion(header) {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const item = header.parentElement;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const content = item.querySelector('.accordion-content');</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>item.classList.toggle('closed');</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>const isOpen = !item.classList.contains('closed');</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (isOpen) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>item.classList.add('expanded');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>content.style.maxHeight = content.scrollHeight + "px";</p>
-<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>item.classList.remove('expanded');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>content.style.maxHeight = "0";</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Set first item open</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const items = document.querySelectorAll('.accordion-item');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>if(items.length &gt; 0) {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>items[0].classList.add('expanded');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>items[0].querySelector('.accordion-content').style.maxHeight = items[0].querySelector('.accordion-content').scrollHeight + "px";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+
+<div class="widget-container">
+
+    <!-- Header -->
+    <div class="header">
+        <div class="header-avatar">P</div>
+        <div class="header-info">
+            <h1>Plexus Media</h1>
+            <div class="header-meta">Content Strategist | Video Editor</div>
+        </div>
+    </div>
+
+    <!-- Phase Summary Bar -->
+    <div class="summary-bar">
+        <div class="summary-card">
+            <div class="summary-label">🎯 Hook</div>
+            <div class="summary-val">Day 1–3</div>
+        </div>
+        <div class="summary-card">
+            <div class="summary-label">🎥 Content</div>
+            <div class="summary-val">Day 4–12</div>
+        </div>
+        <div class="summary-card">
+            <div class="summary-label">🚀 Growth</div>
+            <div class="summary-val">Day 13–20</div>
+        </div>
+        <div class="summary-card">
+            <div class="summary-label">💰 Sales</div>
+            <div class="summary-val">Day 21–30</div>
+        </div>
+    </div>
+
+    <!-- Accordion Section -->
+    <div class="accordion-section">
+
+        <!-- PHASE 1: Hook -->
+        <div class="accordion-item phase-hook">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="phase-title">
+                    <span>Day 1–3: Fix the Algorithm</span>
+                    <span class="phase-indicator">Fix</span>
+                </div>
+                <div class="chevron">&#8964;</div>
+            </div>
+            <div class="accordion-content">
+                <div class="section-row">
+                    <div class="section-title">Strategy</div>
+                    <ul class="tasks-list">
+                        <li><strong>Stop the "Documentary":</strong> Cut the long business talk. Only show the top 3 most painful problems your clients face. Start with "Stop doing [X] if you want [Y]." (e.g., Stop doing generic editing if you want more retention).</li>
+                        <li><strong>Create the "Before/After":</strong> Make a Reel showing "Raw Footage vs Final Video" with a fast-speed transition in the middle.</li>
+                        <li><strong>The "Glow Up":</strong> Post a side-by-side of your editing workflow (Day 1 — messy) vs Day 30 (clean). Text overlay: "How I cleaned up my process."</li>
+                    </ul>
+                </div>
+                <div class="section-row">
+                    <div class="section-title">The Plan</div>
+                    <ul class="tasks-list">
+                        <li>Day 1: Post "Boring Editing is Killing Your Views" (Documentary style but fast).</li>
+                        <li>Day 2: Post "Before vs After" of a client project (Speed up the footage).</li>
+                        <li>Day 3: Post "The Mistakes I Made in 4 Years" (Personal/Vulnerable).</li>
+                    </ul>
+                </div>
+                <div class="insight-row">
+                    <div class="insight-text"><strong>Insight:</strong> When you post "How I edit," nobody cares. When you post "Why your edit looks cheap," people stop scrolling immediately.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHASE 2: Content -->
+        <div class="accordion-item phase-content">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="phase-title">
+                    <span>Day 4–12: Skill Showcase</span>
+                    <span class="phase-indicator">Build</span>
+                </div>
+                <div class="chevron">&#8964;</div>
+            </div>
+            <div class="accordion-content">
+                <div class="section-row">
+                    <div class="section-title">The Content Grid</div>
+                    <div class="meta-row" style="margin-top:0; margin-bottom: 14px;">
+                        <span class="meta-tag">Strategy</span>
+                        <span class="meta-tag">Education</span>
+                        <span class="meta-tag">Portfolio</span>
+                    </div>
+                    <div class="idea-card">
+                        <div class="idea-header">
+                            <h4>Topic 1: Sound Design ASMR</h4>
+                            <span class="idea-type">ASMR</span>
+                        </div>
+                        <div class="idea-desc">No music, just intense sound effects (whooshes, pops). Visually zoom into the waveform. Caption: "Sound is 50% of the video."</div>
+                    </div>
+                    <div class="idea-card">
+                        <div class="idea-header">
+                            <h4>Topic 2: The Color LUT Hack</h4>
+                            <span class="idea-type">Tutorial</span>
+                        </div>
+                        <div class="idea-desc">Show a split screen: "My LUT vs Stock LUT". Show a 3-second clip transforming color. Caption: "Stop using the 'Vital' LUT."</div>
+                    </div>
+                    <div class="idea-card">
+                        <div class="idea-header">
+                            <h4>Topic 3: Typography Animation</h4>
+                            <span class="idea-type">Speedrun</span>
+                        </div>
+                        <div class="idea-desc">Timelapse of you typing a bold headline that animates into a complex kinetic title sequence.</div>
+                    </div>
+                </div>
+                <div class="section-row">
+                    <div class="section-title">Goal</div>
+                    <div class="meta-row" style="margin-top: 0;">
+                        <span class="meta-tag">10k+ Views (1st Reel)</span>
+                        <span class="meta-tag">Profile Clicks</span>
+                    </div>
+                </div>
+                <div class="insight-row">
+                    <div class="insight-text"><strong>Tip:</strong> Audio trends are huge right now. Use a trending sound (even if you lower the volume to 5%) and post your content immediately.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHASE 3: Growth -->
+        <div class="accordion-item phase-growth">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="phase-title">
+                    <span>Day 13–20: The Reel-to-Lead</span>
+                    <span class="phase-indicator">Growth</span>
+                </div>
+                <div class="chevron">&#8964;</div>
+            </div>
+            <div class="accordion-content">
+                <div class="section-row">
+                    <div class="section-title">Format: The "Pain Agony"</div>
+                    <ul class="tasks-list">
+                        <li>Identify your clients' biggest fear (e.g., "You have footage but no one is watching").</li>
+                        <li>Create a 7-second video where you say this. Visual: Text on screen shaking or a sad emoji, then boom — you have the solution.</li>
+                        <li><strong>CTA (Crucial):</strong> "Comment 'FIX' and I'll send you the strategy." Do not ask them to DM. DMs are spammy. Comments are tracked leads.</li>
+                    </ul>
+                </div>
+                <div class="section-row">
+                    <div class="section-title">Format: The "Sneak Peek"</div>
+                    <ul class="tasks-list">
+                        <li>Take a finished video you just delivered.</li>
+                        <li>Post a "Behind the Scenes" of the editing process for the first 15 seconds.</li>
+                        <li>CTA: "DM me 'EDIT' to see what I did."</li>
+                    </ul>
+                </div>
+                <div class="section-row">
+                    <div class="section-title">Outreach / DMs</div>
+                    <ul class="tasks-list">
+                        <li>Reply to the "FIX" comments immediately (within 15 mins).</li>
+                        <li>Send an automated Loom video (2 mins max) analyzing their current brand.</li>
+                    </ul>
+                </div>
+                <div class="insight-row">
+                    <div class="insight-text"><strong>Insight:</strong> Don't lead with "I edit for $X". Lead with their pain. "I help e-com brands increase AOV" is better than "I use Premiere Pro."</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHASE 4: Sales -->
+        <div class="accordion-item phase-sale">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div class="phase-title">
+                    <span>Day 21–30: The Offer</span>
+                    <span class="phase-indicator">Close</span>
+                </div>
+                <div class="chevron">&#8964;</div>
+            </div>
+            <div class="accordion-content">
+                <div class="section-row">
+                    <div class="section-title">The 24-Hour Reel</div>
+                    <ul class="tasks-list">
+                        <li><strong>Record a real client call.</strong> Don't script it. Ask them: "What was the biggest result you got?" and "What was the hardest part?" This builds massive trust.</li>
+                        <li><strong>Case Study:</strong> Post a simple slide deck: Problem → My Edit → Result (e.g., "Views went from 200 to 50k").</li>
+                    </ul>
+                </div>
+                <div class="section-row">
+                    <div class="section-title">The Offer</div>
+                    <div class="meta-row" style="margin-top: 0; margin-bottom: 14px;">
+                        <span class="meta-tag">Monthly Retainer</span>
+                        <span class="meta-tag">Project Based</span>
+                    </div>
+                    <div class="idea-card">
+                        <div class="idea-header">
+                            <h4>Copywriting for Bio</h4>
+                            <span class="idea-type">Update</span>
+                        </div>
+                        <div class="idea-desc">Update your bio to: "I turn messy footage into viral ads. Free strategy call for first 5 replies." Make the "Free Strategy Call" a lead magnet.</div>
+                    </div>
+                </div>
+                <div class="insight-row">
+                    <div class="insight-text"><strong>Insight:</strong> If you struggle to get views, the offer will fail. Fix Phase 1 and 2 first. You cannot sell what no one is looking at.</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function toggleAccordion(header) {
+        const item = header.parentElement;
+        const content = item.querySelector('.accordion-content');
+        const isExpanded = item.classList.contains('expanded');
+
+        if (isExpanded) {
+            // Close it
+            content.style.maxHeight = content.scrollHeight + 'px';
+            // Force reflow so transition picks up the starting value
+            content.getBoundingClientRect();
+            content.style.maxHeight = '0';
+            item.classList.remove('expanded');
+        } else {
+            // Open it
+            item.classList.add('expanded');
+            content.style.maxHeight = content.scrollHeight + 'px';
+            // Clean up inline style after transition so CSS can take over
+            content.addEventListener('transitionend', function cleanup() {
+                content.style.maxHeight = 'none';
+                content.removeEventListener('transitionend', cleanup);
+            });
+        }
+    }
+
+    // Open the first accordion by default
+    document.addEventListener('DOMContentLoaded', function () {
+        const first = document.querySelector('.accordion-item');
+        if (first) {
+            const content = first.querySelector('.accordion-content');
+            first.classList.add('expanded');
+            content.style.maxHeight = content.scrollHeight + 'px';
+            content.addEventListener('transitionend', function cleanup() {
+                content.style.maxHeight = 'none';
+                content.removeEventListener('transitionend', cleanup);
+            });
+        }
+    });
+</script>
+
 </body>
 </html>
